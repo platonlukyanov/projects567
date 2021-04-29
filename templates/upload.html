@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+    <div class="container">
+
+        <form action="" method="POST" enctype="multipart/form-data" role="form" class="col-md-6 offset-3 mt-3">
+            <h2 class="text-center mb-5" id="header">Новый проект</h2>
+            <div class="form-group">
+
+                <label for="name-inp" class="mb-2">Имя проекта: </label>
+                <input type="text" name="name" id="name-inp" class="form-control input-md mb-4"
+                       placeholder="Введите имя проекта...">
+                <label>
+                    <div class="mb-2">Предмет:</div>
+                    <select class="form-select mb-4" aria-label="Предмет" name="subject">
+                        <option selected>Выберите предмет:</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.slug }}">{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <div class="mb-4">
+                    <label for="desc-input" class="form-label">Описание проекта: </label>
+                    <textarea class="form-control" id="desc-input" rows="3" name="desc"
+                              placeholder="Создайте описание проекта..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+
+                <label for="project-folder-input" class="mb-2">Сайт: </label>
+                <input type="file" id="project-folder-input" class="form-control" name="file[]"
+                       oninput="filesize(this)" placeholder="Выберите файла сайта..."
+                       webkitdirectory
+                       directory multiple>
+                <small class="form-text text-muted">На главную страницу сайта будет выведен файл под именем
+                    "index.html", поэтому он обязательно должен присутвовать</small>
+{#                <div class="mb-2"><small class="form-text text-danger">*В проекте не должно быть файлов и папок имена которых содержат ПРОБЕЛЫ ИЛИ КИРИЛЛИЧЕСКИЕ БУКВЫ, это может привести к недоступности проекта для других пользователей</small></div>#}
+            </div>
+
+
+            <div class="form-group d-flex justify-content-center">
+                <input type="submit" class="btn btn-success col-md-4">
+            </div>
+
+        </form>
+    </div>
+
+
+    <script>
+
+        function filesize(elem) {
+            document.cookie = `filesize=${elem.files[0].size}`
+        }
+
+    </script>
+    <script>
+        var nameForm = document.getElementById("name-inp");
+        var header = document.getElementById("header");
+        nameForm.addEventListener('input', () => {
+            if (!nameForm.innerText) {
+                header.innerText = nameForm.value;
+            } else {
+                header.innerText = "Новый проект";
+            }
+        })
+    </script>
+
+{% endblock %}
