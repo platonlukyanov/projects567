@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="container">
+        <h2 class="text-center mb-5">Войти</h2>
+        <form action="" method="POST" enctype="multipart/form-data" role="form" class="col-md-6 offset-3 mt-3">
+
+            <div class="form-group">
+
+                <label for="email-inp" class="mb-2">"Эл. Почта: </label>
+                <input type="email" name="email" class="form-control input-md mb-4" id="email-inp"
+                       placeholder="Введите адрес вашей электронной почты...">
+
+            </div>
+            <div class="form-group">
+
+                <label for="password-inp" class="mb-2">"Пароль: </label>
+                <input type="password" name="password" class="form-control input-md mb-4" id="password-inp"
+                       placeholder="Ваш пароль...">
+            </div>
+
+            <div class="form-group d-flex justify-content-center">
+                <input type="submit" class="btn btn-success col-md-4">
+            </div>
+
+        </form>
+    </div>
+
+
+
+{% endblock %}

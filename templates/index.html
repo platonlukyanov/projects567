@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Главная
+{% endblock %}
+{% block otherhead %}
+    <style>
+        .img-fit-none {
+
+            object-fit: cover;
+        }
+
+        .big-text {
+            font-size: 3rem;
+        }
+
+        .card-title {
+            font-size: 14px;
+        }
+
+        .card-text {
+            font-size: 10px;
+        }
+
+        .big-mb {
+            margin-bottom: 10%;
+        }
+
+
+
+        /* на sm */
+        @media (min-width: 768px) {
+            .card-title {
+                font-size: 16px;
+            }
+
+            .card-text {
+                font-size: 12px;
+            }
+
+
+        }
+
+
+
+        /* на md */
+        @media (min-width: 992px) {
+            .card-title {
+                font-size: 18px;
+
+            }
+
+            .card-text {
+                font-size: 14px;
+            }
+
+        }
+
+        /* на lg */
+        @media (min-width: 1200px) {
+            .card-title {
+                font-size: 20px;
+            }
+
+            .card-text {
+                font-size: 16px;
+            }
+
+
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container big-mb">
+        <div id="project-carousel" class="carousel slide carousel-dark" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#project-carousel" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#project-carousel" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#project-carousel" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item h-50 active">
+
+                    <div class="mx-auto w-50 text-center position-absolute top-50 start-50 translate-middle">
+                        <h5 class="big-text">Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+
+                </div>
+                <div class="carousel-item h-50 ">
+                    <div class="mx-auto w-50 text-center position-absolute top-50 start-50 translate-middle">
+                        <h5 class="big-text">Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item h-50 ">
+                    <div class="mx-auto w-50 text-center position-absolute top-50 start-50 translate-middle">
+                        <h5 class="big-text">Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#project-carousel"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#project-carousel"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следущий</span>
+            </button>
+
+
+        </div>
+    </div>
+
+
+
+    <h1 class="text-center mb-5">Лучшие проекты</h1>
+    <div class="row row-cols-md-3 row-cols-sm-1 g-4 col-md-8 col-sm-9 col-lg-8 offset-md-2 offset-sm-1 offset-lg-2">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">
+                    <small>Биология</small>
+                </div>
+                <img src="{{ url_for('static', filename='images/1.jpg') }}" class="card-img-top img-fit-none h-50"
+                     alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                        the card's content.</p>
+                    <a href="#" class="btn btn-primary">Подробнее</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Авторы: Иван Иванов</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">
+                    <small>Биология</small>
+                </div>
+                <img src="{{ url_for('static', filename='images/2.jpeg') }}" class="card-img-top img-fit-none h-50"
+                     alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                        the card's content.</p>
+                    <a href="#" class="btn btn-primary">Подробнее</a>
+
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Авторы: Иван Иванов</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">
+                    <small>Биология</small>
+                </div>
+                <img src="{{ url_for('static', filename='images/3.jpg') }}" class="card-img-top img-fit-none h-50"
+                     alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                        the card's content.</p>
+                    <a href="#" class="btn btn-primary">Подробнее</a>
+
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Авторы: Иван Иванов</small>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+{% endblock %}
