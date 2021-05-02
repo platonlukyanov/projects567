@@ -1,32 +1,49 @@
 {% extends 'base.html' %}
 
-
+{% set messages = get_flashed_messages() %}
 {% block content %}
     <div class="container">
-        <h2 class="text-center mb-5">Войти</h2>
-        <form action="" method="POST" enctype="multipart/form-data" role="form" class="col-md-6 offset-3 mt-3">
+
+        <form action="" method="POST" enctype="multipart/form-data" role="form" class="col-md-4 offset-4">
+            <h2 class="text-center mb-5">Войти</h2>
+
+            <div class="form-group">
+                {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+                {% endfor %}
+
+                <label for="email-inp" class="mb-2">Эл. Почта: </label>
+                <div class="input-group mb-4">
+
+                    <input type="email" name="email" class="form-control" id="email-inp"
+                           placeholder="Введите адрес вашей электронной почты..." aria-describedby="email-sign"
+                           required>
+                    <span class="input-group-text" id="email-sign">@</span>
+                </div>
+
+            </div>
 
             <div class="form-group">
 
-                <label for="email-inp" class="mb-2">"Эл. Почта: </label>
-                <input type="email" name="email" class="form-control input-md mb-4" id="email-inp"
-                       placeholder="Введите адрес вашей электронной почты...">
+                <label for="password-inp" class="mb-2">Пароль: </label>
+                <div class="input-group mb-4">
+
+                    <input type="password" name="password" class="form-control input-md " id="password-inp"
+                           placeholder="Ваш пароль..." aria-describedby="eye"
+                           {% if password %}value={{ password }}{% endif %}>
+                    <i class="bi bi-eye-slash input-group-text" id="eye"></i>
+                </div>
 
             </div>
-            <div class="form-group">
 
-                <label for="password-inp" class="mb-2">"Пароль: </label>
-                <input type="password" name="password" class="form-control input-md mb-4" id="password-inp"
-                       placeholder="Ваш пароль...">
-            </div>
 
             <div class="form-group d-flex justify-content-center">
-                <input type="submit" class="btn btn-success col-md-4">
+                <input type="submit" class="btn btn-primary col-md-4" value="Войти">
             </div>
 
+            <div class="mt-5 text-center">Еще не зарегистрированы? <a href="{{ url_for('register') }}">Зарегистрироваться</a></div>
         </form>
-    </div>
 
-
-
+        </div>
+         <script src="{{ url_for('static', filename='js/password_btn_changer.js') }}"></script>
 {% endblock %}
