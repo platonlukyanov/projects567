@@ -10,9 +10,9 @@
             <div class="form-group">
 
 
-                    <label for="name-inp" class="mb-2">Имя проекта: </label>
-                    <input type="text" name="name" id="name-inp" class="form-control input-md mb-4"
-                           placeholder="Введите имя проекта...">
+                <label for="name-inp" class="mb-2">Имя проекта: </label>
+                <input type="text" name="name" id="name-inp" class="form-control input-md mb-4"
+                       placeholder="Введите имя проекта...">
 
                 <label>
                     <div class="mb-2">Предмет:</div>
@@ -33,6 +33,16 @@
 
             <div class="form-group mb-4">
 
+                <label for="project-folder-input" class="mb-2">Заглавное изображение вашего проекта</label>
+                <input type="file" id="project-image-input" class="form-control" name="title-image"
+                       oninput="filesize(this)" placeholder="Выберите заглавное изображение вашего проекта..."
+                       accept=".png,.jpg, .jpeg, .svg, .gif, .webp">
+                <small class="form-text text-muted">Допустимые форматы: PNG, JPEG(JPG),  SVG, GIF, WebP</small>
+                {#                <div class="mb-2"><small class="form-text text-danger">*В проекте не должно быть файлов и папок имена которых содержат ПРОБЕЛЫ ИЛИ КИРИЛЛИЧЕСКИЕ БУКВЫ, это может привести к недоступности проекта для других пользователей</small></div>#}
+            </div>
+
+            <div class="form-group mb-4">
+
                 <label for="project-folder-input" class="mb-2">Сайт: </label>
                 <input type="file" id="project-folder-input" class="form-control" name="file[]"
                        oninput="filesize(this)" placeholder="Выберите файла сайта..."
@@ -40,7 +50,7 @@
                        directory multiple>
                 <small class="form-text text-muted">На главную страницу сайта будет выведен файл под именем
                     "index.html", поэтому он обязательно должен присутвовать</small>
-{#                <div class="mb-2"><small class="form-text text-danger">*В проекте не должно быть файлов и папок имена которых содержат ПРОБЕЛЫ ИЛИ КИРИЛЛИЧЕСКИЕ БУКВЫ, это может привести к недоступности проекта для других пользователей</small></div>#}
+                {#                <div class="mb-2"><small class="form-text text-danger">*В проекте не должно быть файлов и папок имена которых содержат ПРОБЕЛЫ ИЛИ КИРИЛЛИЧЕСКИЕ БУКВЫ, это может привести к недоступности проекта для других пользователей</small></div>#}
             </div>
 
 

@@ -8,23 +8,27 @@ from models import *
 
 @app.route('/login', methods=["GET", "POST"])
 def login_page():
-    email = request.form.get('email')
-    password = request.form.get('password')
-    if email and password:
-        user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.password, password):
-            login_user(user)
+    if request.method == "POST":
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-            next_page = request.args.get('next')
+        if email and password:
+            user = User.query.filter_by(email=email).first()
+            if user and check_password_hash(user.password, password):
+                remember = request.form.get('remember')
 
-            return redirect(next_page if next_page else '/')
+                login_user(user, remember=bool(remember))
 
+                next_page = request.args.get('next')
+
+                return redirect(next_page if next_page else '/')
+
+            else:
+                flash('Некорректные пароль или адрес электронной почты')
         else:
-            flash('Некорректные пароль или адрес электронной почты')
-    else:
-        flash('Введите логин и пароль')
-        return render_template('login.html')
-
+            flash('Введите логин и пароль')
+            return render_template('login.html')
+    return render_template('login.html')
 
 @app.route('/register', methods=["GET", "POST"])
 def register():

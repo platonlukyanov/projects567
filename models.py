@@ -11,9 +11,10 @@ class Project(db.Model):
 
     desc = db.Column(db.Text)
     created = db.Column(db.DateTime, default=datetime.now)
-    subject = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
+    subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
     path_to_index = db.Column(db.String(255))
-
+    path_to_tphoto = db.Column(db.String(255))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     def __init__(self, *args, **kwargs):
         super(Project, self).__init__(*args, **kwargs)
         self.generate_slug()
@@ -29,7 +30,7 @@ class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     slug = db.Column(db.String, unique=True)
-    projects = db.relationship('Project', lazy=True)
+    projects = db.relationship('Project', lazy=True, backref="subject")
 
     def __init__(self, *args, **kwargs):
         super(Subject, self).__init__(*args, **kwargs)
@@ -47,9 +48,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), unique=True)
     first_name = db.Column(db.String(100))
     last_name = db.Column(db.String(100))
+    password = db.Column(db.String(100), nullable=False)
     usertype_id = db.Column(db.Integer, db.ForeignKey('user_type.id'),
-                          nullable=False, default=1)
-    password = db.Column(db.String(255))
+                            nullable=False, default=1)
+    projects = db.relationship('Project', lazy=True, backref="user")
 
 
 class UserType(db.Model):

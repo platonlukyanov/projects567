@@ -7,54 +7,88 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
     {% block otherhead %}{% endblock %}
 </head>
 <body>
+{##}
+{#<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">#}
+{#    <div class="container-fluid">#}
+{#        <a class="navbar-brand" href="{{ url_for('index') }}">#}
+{#            <img src="{{ url_for('static', filename='images/567logo.jpg') }}" alt="" width="50">#}
+{#            <span class="m-1">Проекты 567</span>#}
+{#        </a>#}
+{#        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"#}
+{#                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
+{#            <span class="navbar-toggler-icon"></span>#}
+{#        </button>#}
+{#        <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
+{#            <ul class="navbar-nav me-auto mb-2 mb-lg-0">#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link active" aria-current="page" href="{{ url_for('projects.all_projects') }}">Все проекты</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Link</a>#}
+{#                </li>#}
+{#                #}
+{##}
+{#            </ul>#}
+{#            <form class="d-flex">#}
+{#                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">#}
+{#                <button class="btn btn-outline-success" type="submit">Search</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{#</nav>#}
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                <img src="{{ url_for('static', filename='images/567logo.jpg') }}" alt="" width="50">
+                <span class="m-2">Проекты 567</span>
+            </a>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="{{ url_for('projects.all_projects') }}" class="nav-link px-2 link-secondary">Все
+                    проекты</a></li>
+                <li><a href="" class="nav-link px-2 link-dark">Inventory</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">Customers</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">Products</a></li>
+            </ul>
 
-            <span class="m-1">Проекты 567</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input type="search" class="form-control" placeholder="Поиск...">
+            </form>
+            {% if current_user.is_authenticated %}
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
+                        <i class="bi bi-person-circle" style="font-size: 1rem;"></i>
+                        <span>{{ current_user.first_name }} {{ current_user.last_name }}</span>
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
+                        <li><a class="dropdown-item" href="{{ url_for('upload_project') }}">Новый проект...</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">Выйти</a></li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+                </div>
+
+            {% else %}
+                <div class="buttons">
+                    <a href="{{ url_for('login_page') }}">
+                        <button class=" btn btn-primary">Войти</button>
+                    </a>
+
+                    <a href="{{ url_for('register') }}">
+                        <button class=" btn btn-success">Зарегистрироваться</button>
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
-</nav>
-
+</header>
 {% block content %}
 
 {% endblock %}
