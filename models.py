@@ -3,6 +3,11 @@ from app import db, login_manager
 from datetime import datetime
 from slugify import slugify
 
+projects_users = db.Table('projects_users',
+                          db.Column('project_id', db.Integer, db.ForeignKey('project.id'), primary_key=True),
+                          db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
+                          )
+
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -14,13 +19,15 @@ class Project(db.Model):
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
     path_to_index = db.Column(db.String(255))
     path_to_tphoto = db.Column(db.String(255))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    has_photo = db.Column(db.Boolean, default=False)
+    site_url = db.Column(db.String(255))
+
     def __init__(self, *args, **kwargs):
         super(Project, self).__init__(*args, **kwargs)
         self.generate_slug()
 
     def generate_slug(self):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name).lower()
 
     def __repr__(self):
         return f'<Project id: {self.id}, name: "{self.name}">'
@@ -37,7 +44,7 @@ class Subject(db.Model):
         self.generate_slug()
 
     def generate_slug(self):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name).lower()
 
     def __repr__(self):
         return f'<Subject id: {self.id}, name: "{self.name}">'
@@ -51,7 +58,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=False)
     usertype_id = db.Column(db.Integer, db.ForeignKey('user_type.id'),
                             nullable=False, default=1)
-    projects = db.relationship('Project', lazy=True, backref="user")
+
+    projects = db.relationship('Project', secondary=projects_users, lazy='subquery',
+                               backref=db.backref('users', lazy=True))
 
 
 class UserType(db.Model):
@@ -65,7 +74,7 @@ class UserType(db.Model):
         self.generate_slug()
 
     def generate_slug(self):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name).lower()
 
     def __repr__(self):
         return f'<UserType id: {self.id}, name: "{self.name}">'

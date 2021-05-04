@@ -106,7 +106,9 @@
 
 
                                     <div class="card-footer">
-                                        <small class="text-muted">{{ project.user.first_name + " " +  project.user.last_name }}</small>
+                                        {% for user in project.users %}
+                                            <small class="text-muted">{{ user.first_name + " " +  user.last_name }}, </small>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>

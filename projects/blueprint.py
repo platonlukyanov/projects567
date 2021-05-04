@@ -11,8 +11,7 @@ def all_projects():
     print(year)
     all_subjects = Subject.query.all()
     projects = Project.query.all()
-    years = list(set([i.created.year for i in projects]))
-
+    years = sorted(list(set([i.created.year for i in projects])))[::-1]
 
     if subject_slug:
         subject = Subject.query.filter(Subject.slug == subject_slug).first()

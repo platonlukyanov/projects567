@@ -9,12 +9,9 @@ from utils import make_all_dirs_of_path, allowed_image
 from flask_login import login_required, current_user
 
 
-
 @app.route('/')
 def index():
-
     return render_template('index.html')
-
 
 
 @app.route('/upload-project', methods=["POST", "GET"])
@@ -26,8 +23,10 @@ def upload_project():
         subject = Subject.query.filter(Subject.slug == request.form.get("subject")).first()
         proj_files = request.files.getlist("file[]")
         proj_image = request.files.get("title-image")
+        site_url = request.form.get("site_url")
         path_to_index = ""
         path_to_tphoto = ""
+        has_photo = False
         if len(proj_files) > 1:
             path_to_index = None
 
@@ -44,15 +43,18 @@ def upload_project():
         if proj_image and has_file:
             if allowed_image(proj_image):
                 filename = secure_filename(proj_image.filename)
-                path_to_tphoto = app.config['PROJECT_TITLE_IMAGE_FOLDER'] + "/" + "_" + str(
-                    time.time())
+                path_to_tphoto = app.config['PROJECT_TITLE_IMAGE_FOLDER'] + "/" + "_" + str(time.time()) + "." + \
+                                 filename.split(".")[-1]
                 make_all_dirs_of_path(path_to_tphoto)
                 proj_image.save(path_to_tphoto)
                 path_to_tphoto = "/".join(path_to_tphoto.split("/")[1:])
-        else:
-            path_to_tphoto = 'images/nofoto.png'
-        print(path_to_tphoto)
-        obj = Project(name=name, desc=desc, subject_id=subject.id, user_id=current_user.id)
+                has_photo = True
+            else:
+                path_to_tphoto = 'images/nofoto.png'
+
+                print(path_to_tphoto)
+        obj = Project(name=name, desc=desc, subject_id=subject.id, has_photo=has_photo, site_url=site_url)
+        obj.users.append(current_user)
         if path_to_index:
             obj.path_to_index = path_to_index
         if path_to_tphoto:
