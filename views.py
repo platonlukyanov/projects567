@@ -16,8 +16,9 @@ def index():
     return render_template('index.html')
 
 
-@login_required
+
 @app.route('/upload-project', methods=["POST", "GET"])
+@login_required
 def upload_project():
     if request.method == "POST":
         name = request.form.get("name")

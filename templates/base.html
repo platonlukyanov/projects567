@@ -9,37 +9,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
     {% block otherhead %}{% endblock %}
+
 </head>
 <body>
-{##}
-{#<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">#}
-{#    <div class="container-fluid">#}
-{#        <a class="navbar-brand" href="{{ url_for('index') }}">#}
-{#            <img src="{{ url_for('static', filename='images/567logo.jpg') }}" alt="" width="50">#}
-{#            <span class="m-1">Проекты 567</span>#}
-{#        </a>#}
-{#        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"#}
-{#                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
-{#            <span class="navbar-toggler-icon"></span>#}
-{#        </button>#}
-{#        <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
-{#            <ul class="navbar-nav me-auto mb-2 mb-lg-0">#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link active" aria-current="page" href="{{ url_for('projects.all_projects') }}">Все проекты</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="#">Link</a>#}
-{#                </li>#}
-{#                #}
-{##}
-{#            </ul>#}
-{#            <form class="d-flex">#}
-{#                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">#}
-{#                <button class="btn btn-outline-success" type="submit">Search</button>#}
-{#            </form>#}
-{#        </div>#}
-{#    </div>#}
-{#</nav>#}
+
 <header class="p-3 mb-3 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -89,10 +62,12 @@
         </div>
     </div>
 </header>
-{% block content %}
+<div class="big-mb">
+    {% block content %}
 
-{% endblock %}
-
+    {% endblock %}
+</div>
+<div></div>
 <script src="{{ url_for('static', filename='bootstrap.bundle.js') }}"></script>
 </body>
 </html>
