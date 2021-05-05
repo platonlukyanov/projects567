@@ -2,12 +2,6 @@
 {% block otherhead %}
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
 
-
-
-
-    <!-- Bootstrap core CSS -->
-    <link href="" rel="stylesheet">
-
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -37,6 +31,8 @@
                        class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
                         <span class="fs-5 fw-semibold">Фильтрация</span>
                     </a>
+
+
                     <ul class="list-unstyled ps-0">
                         <li class="mb-1">
                             <button class="btn btn-toggle align-items-center rounded"
@@ -47,7 +43,7 @@
                             <div class="collapse show" id="home-collapse" style="">
                                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                     {% for subject in all_subjects %}
-                                        <li><a href="/projects/?subject={{ subject.slug }}"
+                                        <li><a href="./?subject={{ subject.slug }}"
                                                class="link-dark rounded">{{ subject.name }}</a></li>
                                     {% endfor %}
                                 </ul>
@@ -63,18 +59,20 @@
                                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                     {% for year in years %}
                                         <li>
-                                            <div class="form-check">
 
-                                                <a href="/projects/?subject={{ subject.slug }}&year={{ year }}"
-                                                   class="link-dark rounded">{{ year }}</a>
-                                            </div>
+
+                                            <a href="./?year={{ year }}"
+                                               class="link-dark rounded">{{ year }}</a>
+
                                         </li>
                                     {% endfor %}
                                 </ul>
                             </div>
                         </li>
 
+
                     </ul>
+                <a href="{{ url_for('projects.all_projects') }}" class="ml-5">Сбросить</a>
                 </div>
             </div>
 
@@ -118,7 +116,10 @@
 
 
                     </div>
+                    <div class="mt-5">{{ pagination.links }}</div>
                 </div>
+
+
             </div>
         </div>
     </div>

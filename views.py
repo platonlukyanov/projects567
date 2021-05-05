@@ -1,6 +1,6 @@
 from flask import render_template, request, url_for, redirect, flash
 import os
-
+import shutil
 from werkzeug.utils import secure_filename
 import time
 from models import *
@@ -27,17 +27,20 @@ def upload_project():
         path_to_index = ""
         path_to_tphoto = ""
         has_photo = False
+        obj = Project(name=name, desc=desc, subject_id=subject.id)
         if len(proj_files) > 1:
             path_to_index = None
 
             for file in proj_files:
-                make_all_dirs_of_path(file.filename, app.config["UPLOAD_FOLDER"])
-                file.save(os.path.join(app.config["UPLOAD_FOLDER"], file.filename))
+                filename = obj.slug + "/" + file.filename
+                upload_folder = app.config["UPLOAD_FOLDER"]
+                make_all_dirs_of_path(filename, upload_folder)
+                file.save(os.path.join(upload_folder, filename))
                 if file.filename.split('/')[-1] == "index.html":
-                    path_to_index = "uploads/" + file.filename
+                    path_to_index = upload_folder.replace("static/", "") + filename
 
         try:
-            has_file = not proj_image.filename == ''
+            has_file = proj_image.filename != ''
         except:
             has_file = False
         if proj_image and has_file:
@@ -49,21 +52,23 @@ def upload_project():
                 proj_image.save(path_to_tphoto)
                 path_to_tphoto = "/".join(path_to_tphoto.split("/")[1:])
                 has_photo = True
-            else:
-                path_to_tphoto = 'images/nofoto.png'
+        else:
+            path_to_tphoto = 'images/nofoto.png'
 
-                print(path_to_tphoto)
-        obj = Project(name=name, desc=desc, subject_id=subject.id, has_photo=has_photo, site_url=site_url)
+
+        obj.has_photo = has_photo
+        obj.site_url = site_url
         obj.users.append(current_user)
         if path_to_index:
             obj.path_to_index = path_to_index
+            shutil.make_archive(f'static/archives/{obj.slug}', 'zip', os.path.join(upload_folder, obj.slug))
         if path_to_tphoto:
             obj.path_to_tphoto = path_to_tphoto
 
         ss = db.session
         ss.add(obj)
         ss.commit()
-
+        return redirect(url_for('projects.project_detail', slug=obj.slug))
     all_subjects = Subject.query.all()
 
     return render_template('upload.html', subjects=all_subjects)
