@@ -9,25 +9,30 @@ projects = Blueprint('projects', __name__, template_folder='templates')
 def all_projects():
     subject_slug = request.args.get('subject', '')
     year = request.args.get('year', 0)
-    print(year)
-    all_subjects = Subject.query.all()
-    projects = Project.query.all()
-    years = sorted(list(set([i.created.year for i in projects])))[::-1]
+    q = request.args.get('q')
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
-    if subject_slug:
-        subject = Subject.query.filter(Subject.slug == subject_slug).first()
-        projects = Project.query.filter(Project.subject_id == subject.id).all()
-        name_of_subject = subject.name
+    projects = Project.query.all()
+    all_subjects = Subject.query.all()
+    years = sorted(list(set([i.created.year for i in projects])))[::-1]
+    if q:
+        projects = Project.query.filter(
+            Project.name.contains(q) | Project.desc.contains(q)).all()
+        name_of_subject = "Результаты поиска: "+f'"{q}"'
     else:
-        subject = object()
-        name_of_subject = "Все проекты"
-    projects = [i for i in projects if i.created.year == int(year) or year == 0]
+        if subject_slug:
+            subject = Subject.query.filter(Subject.slug == subject_slug).first()
+            projects = Project.query.filter(Project.subject_id == subject.id).all()
+            name_of_subject = subject.name
+        else:
+            name_of_subject = "Все проекты"
+        projects = [i for i in projects if i.created.year == int(year) or year == 0]
     total_len = len(projects)
     pagination_projects = projects[offset: offset + per_page]
     pagination = Pagination(page=page, per_page=per_page, total=total_len,
-                            css_framework='bootstrap4')
-    return render_template('projects/index.html', projects=pagination_projects, subject=subject, name_of_subject=name_of_subject,
+                            css_framework='bootstrap4', search=bool(q))
+    return render_template('projects/index.html', projects=pagination_projects,
+                           name_of_subject=name_of_subject,
                            all_subjects=all_subjects, years=years, year=year,
                            page=page,
                            per_page=per_page,
