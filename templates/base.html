@@ -24,19 +24,31 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="{{ url_for('projects.all_projects') }}" class="nav-link px-2 link-secondary">Все
                     проекты</a></li>
-                <li><a href="" class="nav-link px-2 link-dark">Inventory</a></li>
+                <li>
+                    <a class="nav-link dropdown-toggle link-dark" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Предметы
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        {% for subject in subjects %}
+                            <li><a class="dropdown-item"
+                                   href="/projects?subject={{ subject.slug }}">{{ subject.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
                 <li><a href="#" class="nav-link px-2 link-dark">Customers</a></li>
                 <li><a href="#" class="nav-link px-2 link-dark">Products</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get" action="{{ url_for('projects.all_projects') }}">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get"
+                  action="{{ url_for('projects.all_projects') }}">
 
                 <div class="input-group">
-                    <input type="search" class="form-control" name="q" placeholder="Поиск..."
-                                                 value={{ request.args.get('q', '') }}>
+                    <input type="search" class="form-control" name="q" placeholder="Поиск проектов..."
+                           value={{ request.args.get('q', '') }}>
 
 
-                    <button type="submit" class="btn btn-primary">Поиск</button>
+                    <button type="submit" class="btn btn-outline-primary">Поиск</button>
                 </div>
 
             </form>
@@ -52,10 +64,29 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">Выйти</a></li>
+                        <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Выйти</button></li>
                     </ul>
                 </div>
 
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Выход из аккаунта</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Вы уверены, что хотите выйти из аккаунта?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть окно</button>
+                                <a href="/logout?next={{ request.url }}" class="btn btn-danger">Выйти</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% else %}
                 <div class="buttons">
                     <a href="{{ url_for('login_page') }}">

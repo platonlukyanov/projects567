@@ -11,7 +11,8 @@ from flask_login import login_required, current_user
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    all_subjects = Subject.query.all()
+    return render_template('index.html', subjects=all_subjects)
 
 
 @app.route('/upload-project', methods=["POST", "GET"])

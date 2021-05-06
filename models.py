@@ -27,7 +27,19 @@ class Project(db.Model):
         self.generate_slug()
 
     def generate_slug(self):
-        self.slug = slugify(self.name).lower()
+        slug = slugify(self.name).lower()
+        if not Project.query.filter(Project.slug == slug).first():
+            print(Project.query.filter(Project.slug == slug).first())
+            print(bool(Project.query.filter(Project.slug == slug).first()))
+            self.slug = slug
+        else:
+            c = 0
+            while True:
+                new_slug = slug+str(c)
+                if not Project.query.filter(Project.slug == new_slug).first():
+                    self.slug = new_slug
+                    break
+                c += 1
 
     def __repr__(self):
         return f'<Project id: {self.id}, name: "{self.name}">'
@@ -44,7 +56,18 @@ class Subject(db.Model):
         self.generate_slug()
 
     def generate_slug(self):
-        self.slug = slugify(self.name).lower()
+        slug = slugify(self.name).lower()
+        if not Subject.query.filter(Subject.slug == slug).first():
+
+            self.slug = slug
+        else:
+            c = 0
+            while True:
+                new_slug = slug + str(c)
+                if not Subject.query.filter(Subject.slug == new_slug).first():
+                    self.slug = new_slug
+                    break
+                c += 1
 
     def __repr__(self):
         return f'<Subject id: {self.id}, name: "{self.name}">'
@@ -74,7 +97,18 @@ class UserType(db.Model):
         self.generate_slug()
 
     def generate_slug(self):
-        self.slug = slugify(self.name).lower()
+        slug = slugify(self.name).lower()
+        if not UserType.query.filter(UserType.slug == slug).first():
+
+            self.slug = slug
+        else:
+            c = 0
+            new_slug = slug + str(c)
+            while True:
+                if not UserType.query.filter(UserType.slug == new_slug).first():
+                    self.slug = new_slug
+                    break
+                c += 1
 
     def __repr__(self):
         return f'<UserType id: {self.id}, name: "{self.name}">'

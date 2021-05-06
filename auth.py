@@ -28,7 +28,8 @@ def login_page():
         else:
             flash('Введите логин и пароль')
             return render_template('login.html')
-    return render_template('login.html')
+    all_subjects = Subject.query.all()
+    return render_template('login.html', subjects=all_subjects)
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -62,13 +63,15 @@ def register():
             return redirect(url_for('login_page'))
 
     usertypes = UserType.query.filter(UserType.slug != "admin").all()
-    return render_template('register.html', usertypes=usertypes)
+    all_subjects = Subject.query.all()
+    return render_template('register.html', usertypes=usertypes, subjects=all_subjects)
 
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     logout_user()
-    return redirect('/')
+    next_page = request.args.get('next')
+    return redirect(next_page if next_page else '/')
 
 
 @app.after_request

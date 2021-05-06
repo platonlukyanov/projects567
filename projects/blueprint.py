@@ -33,7 +33,7 @@ def all_projects():
                             css_framework='bootstrap4', search=bool(q))
     return render_template('projects/index.html', projects=pagination_projects,
                            name_of_subject=name_of_subject,
-                           all_subjects=all_subjects, years=years, year=year,
+                           subjects=all_subjects, years=years, year=year,
                            page=page,
                            per_page=per_page,
                            pagination=pagination)
@@ -42,5 +42,5 @@ def all_projects():
 @projects.route('/<slug>')
 def project_detail(slug):
     project = Project.query.filter(Project.slug == slug).first()
-
-    return render_template('projects/project_detail.html', project=project)
+    all_subjects = Subject.query.all()
+    return render_template('projects/project_detail.html', project=project, subjects=all_subjects)

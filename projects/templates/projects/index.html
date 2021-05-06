@@ -42,7 +42,7 @@
                             </button>
                             <div class="collapse show" id="home-collapse" style="">
                                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    {% for subject in all_subjects %}
+                                    {% for subject in subjects %}
                                         <li><a href="./?subject={{ subject.slug }}"
                                                class="link-dark rounded">{{ subject.name }}</a></li>
                                     {% endfor %}
