@@ -1,4 +1,4 @@
-from flask import render_template, request, url_for, redirect, flash
+from flask import render_template, request, url_for, redirect, flash, send_file
 import os
 import shutil
 from werkzeug.utils import secure_filename
@@ -29,12 +29,13 @@ def upload_project():
         path_to_tphoto = ""
         has_photo = False
         obj = Project(name=name, desc=desc, subject_id=subject.id)
+        upload_folder = app.config["UPLOAD_FOLDER"]
         if len(proj_files) > 1:
             path_to_index = None
 
             for file in proj_files:
                 filename = obj.slug + "/" + file.filename
-                upload_folder = app.config["UPLOAD_FOLDER"]
+
                 make_all_dirs_of_path(filename, upload_folder)
                 file.save(os.path.join(upload_folder, filename))
                 if file.filename.split('/')[-1] == "index.html":
@@ -55,7 +56,6 @@ def upload_project():
                 has_photo = True
         else:
             path_to_tphoto = 'images/nofoto.png'
-
 
         obj.has_photo = has_photo
         obj.site_url = site_url
@@ -80,3 +80,8 @@ def render_site(slug):
     proj = Project.query.filter(Project.slug == slug).first()
 
     return redirect(url_for('static', filename=proj.path_to_index))
+
+
+@app.route('/downloads/projects/<slug>')
+def download_project_zip(slug):
+    return send_file(f'static/archives/{slug}.zip', as_attachment=True)
