@@ -4,4 +4,6 @@ secret.py
 .idea
 static/uploads
 static/uploaded-images
+static/archives
+data.db
 

@@ -12,7 +12,7 @@ def all_projects():
     q = request.args.get('q')
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
-    projects = Project.query.all()
+    projects = Project.query.order_by(Project.created.desc()).all()
     all_subjects = Subject.query.all()
     years = sorted(list(set([i.created.year for i in projects])))[::-1]
     if q:
@@ -22,7 +22,7 @@ def all_projects():
     else:
         if subject_slug:
             subject = Subject.query.filter(Subject.slug == subject_slug).first()
-            projects = Project.query.filter(Project.subject_id == subject.id).all()
+            projects = Project.query.filter(Project.subject_id == subject.id).order_by(Project.created.desc()).all()
             name_of_subject = subject.name
         else:
             name_of_subject = "Все проекты"

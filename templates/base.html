@@ -61,6 +61,7 @@
                     </a>
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
                         <li><a class="dropdown-item" href="{{ url_for('upload_project') }}">Новый проект...</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('suggestions.project_suggestions') }}">Заявки...</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -81,7 +82,7 @@
                                 Вы уверены, что хотите выйти из аккаунта?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть окно</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                                 <a href="/logout?next={{ request.url }}" class="btn btn-danger">Выйти</a>
                             </div>
                         </div>

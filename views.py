@@ -85,3 +85,4 @@ def render_site(slug):
 @app.route('/downloads/projects/<slug>')
 def download_project_zip(slug):
     return send_file(f'static/archives/{slug}.zip', as_attachment=True)
+
