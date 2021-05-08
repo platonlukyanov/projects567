@@ -89,6 +89,14 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'<User id: {self.id}, name: "{self.first_name} {self.last_name}">'
 
+    def suggestion_count(self):
+        f = 0
+        for project in self.projects:
+            for sugg in project.suggests:
+                if sugg.status == 1:
+                    f += 1
+        return f
+
 
 class UserType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -106,7 +114,7 @@ class ProjectSuggest(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     sent = db.Column(db.DateTime, default=datetime.now)
-    status = db.Column(db.Integer, default=1, nullable=False) # Three cases: 0 - canceled, 1 - active, 2 - accepted
+    status = db.Column(db.Integer, default=1, nullable=False)  # Three cases: 0 - canceled, 1 - active, 2 - accepted
 
     def __repr__(self):
         return f'<ProjectSuggest id: {self.id}, msg: "{self.message}">'

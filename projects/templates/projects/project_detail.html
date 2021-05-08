@@ -13,22 +13,27 @@
             <a href="{{ url_for('render_site', slug=project.slug) if not project.site_url else project.site_url }}"
                class="btn btn-primary mb-5">Перейти на сайт</a>
             {% if project.path_to_index %}
-                <a href="{{ url_for('download_project_zip', slug=project.slug) }}" class="btn btn-primary mb-5">Скачать
+                <a href="{{ url_for('download_project_zip', slug=project.slug) }}" class="btn btn-warning mb-5">Скачать
                     <i class="bi bi-download"></i></a>
             {% endif %}
         {% endif %}
-        <h5>Над проектом работали: </h5>
-        {% for user in project.users %}
+        <div class="authors mb-3">
+            <h5>Над проектом работали: </h5>
+            {% for user in project.users %}
 
-            <div>
-                <b>{{ user.usertype.name }}: </b>{{ user.first_name + " " + user.last_name }}
-            </div>
-        {% endfor %}
+                <div>
+                    <b>{{ user.usertype.name }}: </b>{{ user.first_name + " " + user.last_name }}
+                </div>
+            {% endfor %}
+        </div>
+        {% if current_user.is_authenticated and not (current_user in project.users) %}
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#sendSuggestModal">
+                Отправить заявку на соавторство
+            </button>
+        {% endif %}
     </div>
     {% if current_user.is_authenticated and not (current_user in project.users) %}
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendSuggestModal">
-            Отправить заявку на соавторство
-        </button>
+
 
         <div class="modal fade" id="sendSuggestModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
