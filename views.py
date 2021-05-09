@@ -12,7 +12,8 @@ from flask_login import login_required, current_user
 @app.route('/')
 def index():
     all_subjects = Subject.query.all()
-    return render_template('index.html', subjects=all_subjects)
+    best_projects = Project.query.filter(Project.is_best).all()
+    return render_template('index.html', subjects=all_subjects, best_projects=best_projects)
 
 
 @app.route('/upload-project', methods=["POST", "GET"])
@@ -25,21 +26,26 @@ def upload_project():
         proj_files = request.files.getlist("file[]")
         proj_image = request.files.get("title-image")
         site_url = request.form.get("site_url")
+        project_type = int(request.form.get("type"))
         path_to_index = ""
         path_to_tphoto = ""
         has_photo = False
-        obj = Project(name=name, desc=desc, subject_id=subject.id)
+        obj = Project(name=name, desc=desc, subject_id=subject.id, type=project_type)
         upload_folder = app.config["UPLOAD_FOLDER"]
-        if len(proj_files) > 1:
+        if len(proj_files) > 1 and project_type != 0:
             path_to_index = None
 
             for file in proj_files:
                 filename = obj.slug + "/" + file.filename
-
+                print(os.path.join(upload_folder, filename))
                 make_all_dirs_of_path(filename, upload_folder)
-                file.save(os.path.join(upload_folder, filename))
-                if file.filename.split('/')[-1] == "index.html":
-                    path_to_index = upload_folder.replace("static/", "") + filename
+                try:
+                    file.save(os.path.join(upload_folder, filename))
+                except:
+                    print(filename)
+                if project_type == 2:
+                    if file.filename.split('/')[-1] == "index.html":
+                        path_to_index = upload_folder.replace("static/", "") + filename
 
         try:
             has_file = proj_image.filename != ''
@@ -60,16 +66,17 @@ def upload_project():
         obj.has_photo = has_photo
         obj.site_url = site_url
         obj.users.append(current_user)
-        if path_to_index:
+        if project_type != 0:
             obj.path_to_index = path_to_index
-            shutil.make_archive(f'static/archives/{obj.slug}', 'zip', os.path.join(upload_folder, obj.slug))
+            if (obj.path_to_index and project_type == 2) or project_type == 1:
+                shutil.make_archive(f'static/archives/{obj.slug}', 'zip', os.path.join(upload_folder, obj.slug))
         if path_to_tphoto:
             obj.path_to_tphoto = path_to_tphoto
 
         ss = db.session
         ss.add(obj)
         ss.commit()
-        return redirect(url_for('projects.project_detail', slug=obj.slug))
+        return render_template("after_upload.html", project=obj)
     all_subjects = Subject.query.all()
 
     return render_template('upload.html', subjects=all_subjects)
@@ -86,3 +93,10 @@ def render_site(slug):
 def download_project_zip(slug):
     return send_file(f'static/archives/{slug}.zip', as_attachment=True)
 
+
+@app.route('/profile')
+def user_profile():
+    suggests = ProjectSuggest.query.filter(ProjectSuggest.status == 1).all()
+    cur_users_projects_ids = list(map(lambda x: x.id, current_user.projects))
+    suggests = [suggest for suggest in suggests if suggest.project_id in cur_users_projects_ids]
+    return render_template('profile.html', suggests=suggests)

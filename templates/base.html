@@ -36,8 +36,7 @@
                         {% endfor %}
                     </ul>
                 </li>
-                <li><a href="#" class="nav-link px-2 link-dark">Customers</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">Products</a></li>
+
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get"
@@ -66,6 +65,10 @@
                             {% if current_user.suggestion_count() %}
                             <span class="badge bg-danger rounded-pill mr-1">{{ current_user.suggestion_count() }}</span>
                                 {% endif %}
+                        {% if current_user.admin_access %}
+                            <li><a class="dropdown-item" href="/admin">Панель администратора...</a></li>
+
+                        {% endif %}
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -88,14 +91,14 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                                <a href="/logout?next={{ request.url }}" class="btn btn-danger">Выйти</a>
+                                <a href="{{ url_for('logout') }}?next={{ request.url }}" class="btn btn-danger">Выйти</a>
                             </div>
                         </div>
                     </div>
                 </div>
             {% else %}
                 <div class="buttons">
-                    <a href="{{ url_for('login_page') }}">
+                    <a href="{{ url_for('login_page') }}?next={{ request.url }}">
                         <button class=" btn btn-primary">Войти</button>
                     </a>
 

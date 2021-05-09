@@ -58,72 +58,33 @@
 
     <h1 class="text-center mb-5">Лучшие проекты</h1>
     <div class="row row-cols-md-3 row-cols-sm-1 g-4 col-md-8 col-sm-9 col-lg-8 offset-md-2 offset-sm-1 offset-lg-2">
+        {% for project in best_projects %}
         <div class="col">
             <div class="card h-100">
                 <div class="card-header">
-                    <small>Биология</small>
+                    <small>{{ project.subject.name }}</small>
                 </div>
-                <img src="{{ url_for('static', filename='images/1.jpg') }}" class="card-img-top img-fit-none h-50"
+                <img src="{{ url_for('static', filename=project.path_to_tphoto) }}"
+                     class="card-img-top img-fit-none h-50"
                      alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                        the card's content.</p>
-                    <a href="#" class="btn btn-primary">Подробнее</a>
+                    <h5 class="card-title">{{ project.name }}</h5>
+                    <p class="card-text">{{ project.desc[:40]+"..." }}</p>
+                    <a href="{{ url_for('projects.project_detail', slug=project.slug) }}" class="btn btn-primary">Подробнее</a>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Авторы: Иван Иванов</small>
+                    {% for user in project.users %}
+                        <small class="text-muted">{{ user.first_name + " " +  user.last_name }}, </small>
+                    {% endfor %}
                 </div>
             </div>
-
-        </div>
-
-
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-header">
-                    <small>Биология</small>
-                </div>
-                <img src="{{ url_for('static', filename='images/2.jpeg') }}" class="card-img-top img-fit-none h-50"
-                     alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                        the card's content.</p>
-                    <a href="#" class="btn btn-primary">Подробнее</a>
-
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Авторы: Иван Иванов</small>
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-header">
-                    <small>Биология</small>
-                </div>
-                <img src="{{ url_for('static', filename='images/3.jpg') }}" class="card-img-top img-fit-none h-50"
-                     alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                        the card's content.</p>
-                    <a href="#" class="btn btn-primary">Подробнее</a>
-
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Авторы: Иван Иванов</small>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
 
 
     </div>
+
+
 
 
 

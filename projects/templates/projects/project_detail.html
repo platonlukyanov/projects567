@@ -12,10 +12,11 @@
         {% if project.path_to_index or project.site_url %}
             <a href="{{ url_for('render_site', slug=project.slug) if not project.site_url else project.site_url }}"
                class="btn btn-primary mb-5">Перейти на сайт</a>
-            {% if project.path_to_index %}
-                <a href="{{ url_for('download_project_zip', slug=project.slug) }}" class="btn btn-warning mb-5">Скачать
-                    <i class="bi bi-download"></i></a>
-            {% endif %}
+
+        {% endif %}
+        {% if (project.path_to_index and project.type == 2) or project.type == 1 %}
+            <a href="{{ url_for('download_project_zip', slug=project.slug) }}" class="btn btn-warning mb-5">Скачать
+                <i class="bi bi-download"></i></a>
         {% endif %}
         <div class="authors mb-3">
             <h5>Над проектом работали: </h5>
@@ -27,7 +28,8 @@
             {% endfor %}
         </div>
         {% if current_user.is_authenticated and not (current_user in project.users) %}
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#sendSuggestModal">
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#sendSuggestModal">
                 Отправить заявку на соавторство
             </button>
         {% endif %}
@@ -35,7 +37,8 @@
     {% if current_user.is_authenticated and not (current_user in project.users) %}
 
 
-        <div class="modal fade" id="sendSuggestModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="sendSuggestModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">

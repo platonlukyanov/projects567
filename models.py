@@ -21,6 +21,10 @@ class Project(db.Model):
     suggests = db.relationship('ProjectSuggest', lazy=True, backref="project")
     created = db.Column(db.DateTime, default=datetime.now)
     slug = db.Column(db.String, unique=True, nullable=False)
+    type = db.Column(db.Integer,
+                     default=2)  # 0 - Project without files, 1 - Project with files, 2 - Site
+    active = db.Column(db.Boolean, default=False)
+    is_best = db.Column(db.Boolean, default=False)
 
     def __init__(self, *args, **kwargs):
         super(Project, self).__init__(*args, **kwargs)
@@ -85,6 +89,7 @@ class User(db.Model, UserMixin):
     projects = db.relationship('Project', secondary=projects_users, lazy='subquery',
                                backref=db.backref('users', lazy=True))
     projects_suggests = db.relationship('ProjectSuggest', lazy=True, backref="sender")
+    admin_access = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<User id: {self.id}, name: "{self.first_name} {self.last_name}">'

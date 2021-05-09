@@ -4,6 +4,8 @@ from suggestions.blueprint import suggestions
 import views
 import auth
 import admin
+import mail
+
 
 app.register_blueprint(projects, url_prefix="/projects")
 app.register_blueprint(suggestions, url_prefix="/suggestions")

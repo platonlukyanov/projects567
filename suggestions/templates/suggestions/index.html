@@ -8,11 +8,12 @@
             <div class="list-group-item list-group-item-action border-dark" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">От {{ suggest.sender.first_name + " " + suggest.sender.last_name}}</h5>
-                    <small>3 дня назад</small>
+                    <small id="suggest-created">{{ suggest.sent }}</small>
                 </div>
 
 
                 <p class="mb-1">На проект: "{{ suggest.project.name }}"</p>
+                <p class="mb-1">{{ suggest.message }}</p>
                 <h6 class="mb-3">Принять или отклонить?</h6>
 
                 <div class="d-flex justify-content-evenly col-md-6 mb-2">
@@ -24,4 +25,11 @@
 
 
     </div>
+    <script src="{{ url_for('static', filename="js/datetime_adapter.js") }}"></script>
+    <script>
+        var de = document.getElementById('suggest-created');
+        var dtstr = de.innerText;
+        console.log(dtstr);
+        de.innerText = format_date(dtstr);
+    </script>
 {% endblock %}

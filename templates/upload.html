@@ -41,7 +41,58 @@
                 {#                <div class="mb-2"><small class="form-text text-danger">*В проекте не должно быть файлов и папок имена которых содержат ПРОБЕЛЫ ИЛИ КИРИЛЛИЧЕСКИЕ БУКВЫ, это может привести к недоступности проекта для других пользователей</small></div>#}
             </div>
 
-            <div class="form-group mb-4">
+            <div class="form-group" id="project-type-group">
+
+                <div class="mb-2">Тип проекта:</div>
+                <div class="mb-4" aria-label="Тип проекта">
+
+
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="type"
+                               value="0"
+                               id="type-0" autocomplete="off" data-box="withoutftype">
+
+                        <label for="type-0">Проект без файлов</label>
+
+                    </div>
+
+
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="type"
+                               value="1"
+                               id="type-1" autocomplete="off" data-box="withftype">
+
+                        <label for="type-1">Проект с файлами</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="type"
+                               value="2"
+                               id="type-2" autocomplete="off" data-box="sitetype" checked>
+
+                        <label for="type-2">Сайт</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group mb-4" id="withoutftype">
+
+
+            </div>
+
+            <div class="form-group mb-4" id="withftype">
+
+                <label for="project-folder-input" class="mb-2">Файлы: </label>
+
+                <input type="file" id="project-folder-input" class="form-control"
+                       name="file[]"
+                       oninput="filesize(this)" placeholder="Выберите файла..."
+                       webkitdirectory
+                       directory multiple>
+
+            </div>
+
+            <div class="form-group mb-4" id="sitetype">
 
                 <label for="project-folder-input" class="mb-2">Сайт: </label>
 
@@ -57,9 +108,6 @@
                        directory multiple>
                 <small class="form-text text-muted">На главную страницу сайта будет выведен файл под именем
                     "index.html", поэтому он обязательно должен присутвовать</small>
-
-
-
 
             </div>
 
@@ -90,5 +138,28 @@
             }
         })
     </script>
+
+    <script>
+        f = function () {
+            var rbs = document.querySelectorAll('input[name="type"]');
+            for (var rb of rbs) {
+                if (!rb.checked) {
+                    var type_box = document.getElementById(rb.dataset.box);
+                    type_box.style.display = "none";
+                } else {
+                    var type_box = document.getElementById(rb.dataset.box);
+                    type_box.style.display = "block";
+                }
+            }
+        }
+        f()
+        var input_area = document.getElementById('project-type-group');
+
+
+        input_area.onclick = f;
+
+    </script>
+
+
 
 {% endblock %}
