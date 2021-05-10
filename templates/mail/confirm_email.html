@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение Электронной почты</title>
+    <link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Добро Пожаловать на платформу Проектов 567!</h1>
+        <img src="{{ url_for('static', filename="images/567logo.jpg", _external=True) }}" alt="Проекты 567" width="200">
+        <p>Мы рады приветствовать вас на нашей платформе! Здесь вы сможете найти проекты учеников нашей школы,
+            а также являясь таковым сможете опубликовать свой проект!</p>
+        <h6>Для регистрации на платформе подвердите свой аккаунт:</h6>
+        <a href="{{ link }}" class="btn btn-success w-50 mx-auto">Подтвердить</a>
+    </div>
+</body>
+</html>
