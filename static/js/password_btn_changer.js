@@ -18,9 +18,9 @@ function switch_password_visibility(btn, input) {
             })
         }
 
-        var btn1 = document.getElementById('eye');
+        var btn1 = document.getElementById('eye1');
         var btn2 = document.getElementById('eye2');
-        var inp1 = document.getElementById('password-inp');
-        var inp2 = document.getElementById('password2-inp');
+        var inp1 = document.getElementById('password');
+        var inp2 = document.getElementById('password2');
         switch_password_visibility(btn1, inp1);
         switch_password_visibility(btn2, inp2);

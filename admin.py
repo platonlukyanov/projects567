@@ -38,7 +38,7 @@ class BaseModelView(ModelView):
 
 class ProjectAdminView(AdminMixin, ModelView):
     can_create = False
-    form_columns = ["name", "desc", "users", "active", "is_best"]
+    form_columns = ["name", "desc", "users", "active"]
     column_exclude_list = ['path_to_index', 'path_to_tphoto', 'slug', 'site_url']
     column_searchable_list = ['name', "desc"]
     column_filters = ['created', 'active', 'type', 'has_photo']

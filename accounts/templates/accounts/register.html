@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% set messages = get_flashed_messages() %}
+{% set has_errors = form.errors %}
+
+{% block content %}
+    <div class="container mt-3">
+
+        <form action="" method="POST" enctype="multipart/form-data" role="form" class="col-md-4 offset-4">
+            {{ form.csrf_token }}
+            <h2 class="text-center mb-5">Регистрация</h2>
+            <div class="form-group">
+                {% for message in messages %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+
+
+
+                {{ form.first_name.label(class="mb-2") }}
+                <div class="input-group mb-2">
+
+                    {{ add_errors(form.first_name, form.first_name(class="form-control", placeholder="Ваше имя")) }}
+
+                    {{ add_errors(form.last_name, form.last_name(class="form-control", placeholder="Ваша фамилия")) }}
+
+
+                </div>
+
+                {{ form.email.label(class="mb-2") }}
+                <div class="input-group mb-4">
+                    {{ add_errors(form.email, form.email(class="form-control", placeholder="Введите адрес вашей электронной почты...")) }}
+                    <span class="input-group-text" id="email-sign">@</span>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                {{ form.usertype.label(class="mb-2") }}
+                <div class="mb-4" aria-label="Тип пользователя">
+
+                    {% for subfield in form.usertype %}
+                        <div class="form-check form-check-inline">
+                        {{ subfield(class="form-check-input ", checked="True" if loop.index == 1 else "F" ) }}
+
+                            {{ subfield.label() }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            {% for field in (form.password, form.password2) %}
+                <div class="form-group">
+
+                    {{ field.label(class='mb-2') }}
+                    <div class="input-group mb-4">
+                        {{ add_errors(field, field(class="form-control input-md", placeholder="Пароль...", aria_describedby="eye"~loop.index), index=loop.index) }}
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+            <div class="form-group d-flex justify-content-center">
+                <input type="submit" class="btn btn-success col-md-5" value="Зарегистрироваться">
+            </div>
+
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/password_btn_changer.js') }}"></script>
+
+{% endblock %}

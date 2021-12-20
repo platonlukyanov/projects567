@@ -2,7 +2,7 @@ from flask_login import UserMixin
 from app import db, login_manager, app
 from datetime import datetime
 from slugify import slugify
-from itsdangerous import JSONWebSignatureSerializer as Serializer
+
 
 projects_users = db.Table('projects_users',
                           db.Column('project_id', db.Integer, db.ForeignKey('project.id'), primary_key=True),
@@ -104,18 +104,7 @@ class User(db.Model, UserMixin):
                     f += 1
         return f
 
-    def get_reset_token(self):
-        s = Serializer(app.config["SECRET_KEY"], 'email_conf')
-        return s.dumps({"user_id": self.id})
 
-    @staticmethod
-    def verify_reset_token(token):
-        s = Serializer(app.config["SECRET_KEY"], 'email_conf')
-        try:
-            user_id = s.loads(token)["user_id"]
-        except:
-            return
-        return User.query.get(user_id)
 
 
 class UserType(db.Model):

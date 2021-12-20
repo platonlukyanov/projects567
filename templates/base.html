@@ -10,6 +10,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
     {% block otherhead %}{% endblock %}
 
+    {% macro add_errors(field, field_render, index) %}
+        {{ field_render }}
+        {% if index %}
+            <i class="bi bi-eye-slash input-group-text" id="eye{{ index }}"></i>
+        {% endif %}
+        {% for error in field.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    {% endmacro %}
 </head>
 <body>
 
@@ -59,21 +68,26 @@
                         <span>{{ current_user.first_name }} {{ current_user.last_name }}</span>
                     </a>
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-                        <li><a class="dropdown-item" href="{{ url_for('upload_project') }}">Новый проект...</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('projects.upload_project') }}">Новый проект...</a></li>
                         <li class="d-flex justify-content-between align-items-center">
-                            <a class="dropdown-item" href="{{ url_for('suggestions.project_suggestions') }}">Заявки...</a>
+                            <a class="dropdown-item"
+                               href="{{ url_for('suggestions.project_suggestions') }}">Заявки...</a>
                             {% if current_user.suggestion_count() %}
-                            <span class="badge bg-danger rounded-pill mr-1">{{ current_user.suggestion_count() }}</span>
-                                {% endif %}
-                        {% if current_user.admin_access %}
-                            <li><a class="dropdown-item" href="/admin">Панель администратора...</a></li>
+                                <span class="badge bg-danger rounded-pill mr-1">{{ current_user.suggestion_count() }}</span>
+                            {% endif %}
+                            {% if current_user.admin_access %}
+                                <li><a class="dropdown-item" href="/admin">Панель администратора...</a></li>
 
-                        {% endif %}
+                            {% endif %}
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Выйти</button></li>
+                        <li>
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">Выйти
+                            </button>
+                        </li>
                     </ul>
                 </div>
 
@@ -91,18 +105,19 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                                <a href="{{ url_for('logout') }}?next={{ request.url }}" class="btn btn-danger">Выйти</a>
+                                <a href="{{ url_for('accounts.logout') }}?next={{ request.url }}"
+                                   class="btn btn-danger">Выйти</a>
                             </div>
                         </div>
                     </div>
                 </div>
             {% else %}
                 <div class="buttons">
-                    <a href="{{ url_for('login_page') }}?next={{ request.url }}">
+                    <a href="{{ url_for('accounts.login_page') }}?next={{ request.url }}">
                         <button class=" btn btn-primary">Войти</button>
                     </a>
 
-                    <a href="{{ url_for('register') }}">
+                    <a href="{{ url_for('accounts.register') }}">
                         <button class=" btn btn-success">Зарегистрироваться</button>
                     </a>
                 </div>

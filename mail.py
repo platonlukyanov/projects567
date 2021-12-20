@@ -19,13 +19,13 @@ mail = Mail(app)
 
 def send_confirm_email(token, user):
     msg = Message('Подтверждение Электронной почты', recipients=[user.email])
-    link = url_for('confirm_email', token=token, _external=True)
+    link = url_for('accounts.confirm_email', token=token, _external=True)
     msg.html = render_template("mail/confirm_email.html", user=user, link=link)
     mail.send(msg)
 
 
 def send_reset_password_email(token, user):
     msg = Message('Подтверждение Электронной почты', recipients=[user.email])
-    link = url_for('reset_password', token=token, _external=True)
+    link = url_for('accounts.reset_password', token=token, _external=True)
     msg.html = render_template("mail/reset_password.html", user=user, link=link)
     mail.send(msg)

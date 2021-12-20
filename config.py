@@ -1,4 +1,4 @@
-from secret import db_user, db_password, db_name, secret_key, m_username, m_password, m_default_sender, conf_salt
+from secret import secret_key, m_username, m_password, m_default_sender, conf_salt
 
 
 class Conf:

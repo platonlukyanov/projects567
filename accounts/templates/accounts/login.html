@@ -5,6 +5,7 @@
     <div class="container">
 
         <form action="" method="POST" enctype="multipart/form-data" role="form" class="col-md-4 offset-4">
+            {{ form.csrf_token }}
             <h2 class="text-center mb-5">Войти</h2>
 
             <div class="form-group">
@@ -12,43 +13,41 @@
                     <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
                 {% endfor %}
 
-                <label for="email-inp" class="mb-2">Эл. Почта: </label>
+                {{ form.email.label(class="mb-2") }}
                 <div class="input-group mb-4">
-
-                    <input type="email" name="email" class="form-control" id="email-inp"
-                           placeholder="Введите адрес вашей электронной почты..." aria-describedby="email-sign"
-                           required>
+                    {{ form.email(class="form-control", placeholder="Введите адрес вашей электронной почты...", aria_describedby="email-sign") }}
                     <span class="input-group-text" id="email-sign">@</span>
+                    {% for error in form.email.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
                 </div>
 
             </div>
 
             <div class="form-group">
 
-                <label for="password-inp" class="mb-2">Пароль: </label>
+                {{ form.password.label(class="mb-2") }}
                 <div class="input-group mb-4">
-
-                    <input type="password" name="password" class="form-control input-md " id="password-inp"
-                           placeholder="Ваш пароль..." aria-describedby="eye"
-                           {% if password %}value={{ password }}{% endif %}>
+                    {{ form.password(class="form-control input-md", placeholder="Ваш пароль...", aria_describedby="eye") }}
                     <i class="bi bi-eye-slash input-group-text" id="eye"></i>
+                    {% for error in form.password.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
                 </div>
 
             </div>
 
             <div class="form-check mb-4">
-                <input class="form-check-input" type="checkbox" value="1" id="remember_me" name="remember" checked>
-                <label class="form-check-label" for="remember_me">
-                    Запомнить меня
-                </label>
+                {{ form.remember_me(class="form-check-input", checked=True) }}
+                {{ form.remember_me.label(class="form-check-label") }}
             </div>
 
             <div class="form-group d-flex justify-content-center">
                 <input type="submit" class="btn btn-primary col-md-4" value="Войти">
             </div>
-            <a href="{{ url_for('reset_password_email') }}" class="mt-5">Забыли пароль?</a>
+            <a href="{{ url_for('accounts.reset_password_email') }}" class="mt-5">Забыли пароль?</a>
 
-            <div class="mt-5 text-center">Еще не зарегистрированы? <a href="{{ url_for('register') }}">Зарегистрироваться</a>
+            <div class="mt-5 text-center">Еще не зарегистрированы? <a href="{{ url_for('accounts.register') }}">Зарегистрироваться</a>
             </div>
         </form>
 

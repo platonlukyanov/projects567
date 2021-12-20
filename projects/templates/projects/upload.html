@@ -6,39 +6,30 @@
     <div class="container">
 
         <form action="" method="POST" enctype="multipart/form-data" role="form" class="col-md-6 offset-3 mt-3">
+            {{ form.csrf_token() }}
             <h2 class="text-center mb-5" id="header">Новый проект</h2>
             <div class="form-group">
 
 
-                <label for="name-inp" class="mb-2">Имя проекта: </label>
-                <input type="text" name="name" id="name-inp" class="form-control input-md mb-4"
-                       placeholder="Введите имя проекта...">
+                {{ form.name.label(class="mb-2 form-label") }}
+                {{ add_errors(form.name, form.name(class="form-control input-md mb-4", placeholder="Введите имя проекта...")) }}
+            </div>
 
-                <label>
-                    <div class="mb-2">Предмет:</div>
-                    <select class="form-select mb-4" aria-label="Предмет" name="subject">
-                        <option selected>Выберите предмет:</option>
-                        {% for subject in subjects %}
-                            <option value="{{ subject.slug }}">{{ subject.name }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-
-                <div class="mb-4">
-                    <label for="desc-input" class="form-label">Описание проекта: </label>
-                    <textarea class="form-control" id="desc-input" rows="3" name="desc"
-                              placeholder="Создайте описание проекта..."></textarea>
-                </div>
+            <div class="form-group">
+                {{ form.subject.label(class="mb-2 form-label") }}
+                {{ add_errors(form.subject, form.subject(class="form-select mb-4")) }}
             </div>
 
             <div class="form-group mb-4">
+                {{ form.desc.label(class="mb-2 form-label") }}
+                {{ add_errors(form.desc, form.desc(class="form-control", placeholder="Создайте описание проекта...", rows="5")) }}
+            </div>
 
-                <label for="project-folder-input" class="mb-2">Заглавное изображение вашего проекта</label>
-                <input type="file" id="project-image-input" class="form-control" name="title-image"
-                       oninput="filesize(this)" placeholder="Выберите заглавное изображение вашего проекта..."
-                       accept=".png,.jpg, .jpeg, .svg, .gif, .webp">
+
+            <div class="form-group mb-4">
+                {{ form.project_image.label(class="mb-2 form-label") }}
+                {{ add_errors(form.project_image, form.project_image(class="form-control", placeholder="Выберите заглавное изображение вашего проекта...")) }}
                 <small class="form-text text-muted">Допустимые форматы: PNG, JPEG(JPG), SVG, GIF, WebP</small>
-                {#                <div class="mb-2"><small class="form-text text-danger">*В проекте не должно быть файлов и папок имена которых содержат ПРОБЕЛЫ ИЛИ КИРИЛЛИЧЕСКИЕ БУКВЫ, это может привести к недоступности проекта для других пользователей</small></div>#}
             </div>
 
             <div class="form-group" id="project-type-group">
@@ -81,14 +72,8 @@
             </div>
 
             <div class="form-group mb-4" id="withftype">
-
-                <label for="project-folder-input" class="mb-2">Файлы: </label>
-
-                <input type="file" id="project-folder-input" class="form-control"
-                       name="file[]"
-                       oninput="filesize(this)" placeholder="Выберите файла..."
-                       webkitdirectory
-                       directory multiple>
+                {{ form.project_files.label(class="mb-2 form-label") }}
+                {{ add_errors(form.project_files, form.project_files(class="form-control", placeholder="Выберите файлы...")) }}
 
             </div>
 
@@ -96,16 +81,12 @@
 
                 <label for="project-folder-input" class="mb-2">Сайт: </label>
 
-                <input type="url" class="form-control" name="site_url" placeholder="Введите URL">
+                {{ form.site_url(class="form-control", placeholder="Введите URL") }}
 
                 <div class="text-center my-3">или</div>
 
 
-                <input type="file" id="project-folder-input" class="form-control"
-                       name="file[]"
-                       oninput="filesize(this)" placeholder="Выберите файла сайта..."
-                       webkitdirectory
-                       directory multiple>
+                {{ add_errors(form.project_files, form.project_files(class="form-control", placeholder="Выберите файлы сайты...")) }}
                 <small class="form-text text-muted">На главную страницу сайта будет выведен файл под именем
                     "index.html", поэтому он обязательно должен присутвовать</small>
 
