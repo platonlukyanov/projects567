@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
+
+.navigation__items {
+    position: relative;
+    float: right;
+    
+    min-width: 600px;
+}
+header {
+    
+    background-color: white;
+    padding-top: 3%;
+
+    
+}
+li.navigation__item {
+    color: rgb(105, 105, 105);
+    font-weight: bold;
+    display: inline;
+    margin-right: 10px;
+}
+
+li.navigation__item:hover {
+    cursor: pointer;
+    color: rgb(72, 72, 72);
+}
+
+
+li.navigation__item:active {
+    color: rgb(52,186,212);
+}
+.logo-image {
+    
+    margin-left: 5%;
+    display: block;
+    margin-top: 1%;
+    float: left;
+    height: 100px;
+}
+
+.main-element {
+    color: rgb(105, 105, 105);
+    font-weight: bold;
+    font-size: 130%;
+    font-family: 'Comfortaa', cursive;
+
+}
+
+.title-image {
+    height: 80%;
+    width: 100%;
+    
+    position: relative;
+    
+    top: 100px;
+    margin: auto 10px;
+    background-image: url("https://pp.userapi.com/c834302/v834302273/f6cf0/jI9mlXqxInE.jpg");
+    
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.title-image>p {
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 4px 5px grey;
+    width: 500px;
+    margin-left: 50%;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 50px;
+}
+
+
+

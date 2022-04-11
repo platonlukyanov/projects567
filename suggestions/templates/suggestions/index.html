@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1 class="text-center mb-4">Заявки на соавторство в ваших проектах</h1>
+    <div class="list-group col-md-4 offset-4">
+        {% for suggest in suggests %}
+            <div class="list-group-item list-group-item-action border-dark" aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">От {{ suggest.sender.first_name + " " + suggest.sender.last_name}}</h5>
+                    <small id="suggest-created">{{ suggest.sent }}</small>
+                </div>
+
+
+                <p class="mb-1">На проект: "{{ suggest.project.name }}"</p>
+                <p class="mb-1">{{ suggest.message }}</p>
+                <h6 class="mb-3">Принять или отклонить?</h6>
+
+                <div class="d-flex justify-content-evenly col-md-6 mb-2">
+                    <a href="{{ url_for('suggestions.accept_suggest', id_=suggest.id) }}" class="btn btn-success">Принять</a>
+                    <a href="{{ url_for('suggestions.cancel_suggest', id_=suggest.id) }}" class="btn btn-danger">Отклонить</a>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    </div>
+    <script src="{{ url_for('static', filename="js/datetime_adapter.js") }}"></script>
+    <script>
+        var de = document.getElementById('suggest-created');
+        var dtstr = de.innerText;
+        console.log(dtstr);
+        de.innerText = format_date(dtstr);
+    </script>
+{% endblock %}

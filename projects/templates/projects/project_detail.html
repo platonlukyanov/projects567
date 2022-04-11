@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="col-md-6 offset-2">
+        <h1 class="text-uppercase mb-5">{{ project.name }}</h1>
+        {% if project.has_photo %}
+            <img src="{{ url_for('static', filename=project.path_to_tphoto) }}"
+                 class="rounded mx-auto d-block w-50 mb-5" alt="...">
+        {% endif %}
+        <p>{{ project.desc }}</p>
+        {% if project.path_to_index or project.site_url %}
+            <a href="{{ url_for('projects.render_site', slug=project.slug) if not project.site_url else project.site_url }}"
+               class="btn btn-primary mb-5">Перейти на сайт</a>
+
+        {% endif %}
+        {% if (project.path_to_index and project.type == 2) or project.type == 1 %}
+            <a href="{{ url_for('projects.download_project_zip', slug=project.slug) }}" class="btn btn-warning mb-5">Скачать
+                <i class="bi bi-download"></i></a>
+        {% endif %}
+        <div class="authors mb-3">
+            <h5>Над проектом работали: </h5>
+            {% for user in project.users %}
+
+                <div>
+                    <b>{{ user.usertype.name }}: </b>{{ user.first_name + " " + user.last_name }}
+                </div>
+            {% endfor %}
+        </div>
+        {% if current_user.is_authenticated and not (current_user in project.users) %}
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#sendSuggestModal">
+                Отправить заявку на соавторство
+            </button>
+        {% endif %}
+    </div>
+    {% if current_user.is_authenticated and not (current_user in project.users) %}
+
+
+        <div class="modal fade" id="sendSuggestModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Заявка на соавторство в проекте</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('suggestions.create', sender_id=current_user.id, project_id=project.id) }}"
+                              method="post">
+                            <div class="mb-3">
+                                <label for="suggest_msg" class="form-label">Сообщение к заявке</label>
+                                <textarea class="form-control" id="suggest_msg" rows="3" name="text"></textarea>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                <button type="submit" class="btn btn-primary">Отправить заявку</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

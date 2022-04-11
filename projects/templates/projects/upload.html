@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+    <div class="container">
+
+        <form action="" method="POST" enctype="multipart/form-data" role="form" class="col-md-6 offset-3 mt-3">
+            {{ form.csrf_token() }}
+            <h2 class="text-center mb-5" id="header">Новый проект</h2>
+            <div class="form-group">
+
+
+                {{ form.name.label(class="mb-2 form-label") }}
+                {{ add_errors(form.name, form.name(class="form-control input-md mb-4", placeholder="Введите имя проекта...")) }}
+            </div>
+
+            <div class="form-group">
+                {{ form.subject.label(class="mb-2 form-label") }}
+                {{ add_errors(form.subject, form.subject(class="form-select mb-4")) }}
+            </div>
+
+            <div class="form-group mb-4">
+                {{ form.desc.label(class="mb-2 form-label") }}
+                {{ add_errors(form.desc, form.desc(class="form-control", placeholder="Создайте описание проекта...", rows="5")) }}
+            </div>
+
+
+            <div class="form-group mb-4">
+                {{ form.project_image.label(class="mb-2 form-label") }}
+                {{ add_errors(form.project_image, form.project_image(class="form-control", placeholder="Выберите заглавное изображение вашего проекта...")) }}
+                <small class="form-text text-muted">Допустимые форматы: PNG, JPEG(JPG), SVG, GIF, WebP</small>
+            </div>
+
+            <div class="form-group" id="project-type-group">
+
+                <div class="mb-2">Тип проекта:</div>
+                <div class="mb-4" aria-label="Тип проекта">
+
+
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="type"
+                               value="0"
+                               id="type-0" autocomplete="off" data-box="withoutftype">
+
+                        <label for="type-0">Проект без файлов</label>
+
+                    </div>
+
+
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="type"
+                               value="1"
+                               id="type-1" autocomplete="off" data-box="withftype">
+
+                        <label for="type-1">Проект с файлами</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="type"
+                               value="2"
+                               id="type-2" autocomplete="off" data-box="sitetype" checked>
+
+                        <label for="type-2">Сайт</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group mb-4" id="withoutftype">
+
+
+            </div>
+
+            <div class="form-group mb-4" id="withftype">
+                {{ form.project_files.label(class="mb-2 form-label") }}
+                {{ add_errors(form.project_files, form.project_files(class="form-control", placeholder="Выберите файлы...")) }}
+
+            </div>
+
+            <div class="form-group mb-4" id="sitetype">
+
+                <label for="project-folder-input" class="mb-2">Сайт: </label>
+
+                {{ form.site_url(class="form-control", placeholder="Введите URL") }}
+
+                <div class="text-center my-3">или</div>
+
+
+                {{ add_errors(form.project_files, form.project_files(class="form-control", placeholder="Выберите файлы сайты...")) }}
+                <small class="form-text text-muted">На главную страницу сайта будет выведен файл под именем
+                    "index.html", поэтому он обязательно должен присутвовать</small>
+
+            </div>
+
+
+            <div class="form-group d-flex justify-content-center">
+                <input type="submit" class="btn btn-success col-md-4">
+            </div>
+
+        </form>
+    </div>
+
+
+    <script>
+
+        function filesize(elem) {
+            document.cookie = `filesize=${elem.files[0].size}`
+        }
+
+    </script>
+    <script>
+        var nameForm = document.getElementById("name-inp");
+        var header = document.getElementById("header");
+        nameForm.addEventListener('input', () => {
+            if (!nameForm.innerText) {
+                header.innerText = nameForm.value;
+            } else {
+                header.innerText = "Новый проект";
+            }
+        })
+    </script>
+
+    <script>
+        f = function () {
+            var rbs = document.querySelectorAll('input[name="type"]');
+            for (var rb of rbs) {
+                if (!rb.checked) {
+                    var type_box = document.getElementById(rb.dataset.box);
+                    type_box.style.display = "none";
+                } else {
+                    var type_box = document.getElementById(rb.dataset.box);
+                    type_box.style.display = "block";
+                }
+            }
+        }
+        f()
+        var input_area = document.getElementById('project-type-group');
+
+
+        input_area.onclick = f;
+
+    </script>
+
+
+
+{% endblock %}

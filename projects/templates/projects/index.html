@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block otherhead %}
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+        .scaling-img {
+            transition-duration: 0.3s;
+        }
+        .scaling-img:hover {
+
+            transform: scale(1.1);
+
+        }
+        .scaling-img-parent {
+            overflow: hidden;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='sidebars.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="p-3 bg-white">
+                    <a href="/"
+                       class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+                        <span class="fs-5 fw-semibold">Фильтрация</span>
+                    </a>
+
+
+                    <ul class="list-unstyled ps-0">
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#home-collapse" aria-expanded="true">
+                                Предметы
+                            </button>
+                            <div class="collapse show" id="home-collapse" style="">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    {% for subject in subjects %}
+                                        <li><a href="./?subject={{ subject.slug }}"
+                                               class="link-dark rounded">{{ subject.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#dashboard-collapse" aria-expanded="false">
+                                Годы
+                            </button>
+                            <div class="collapse" id="dashboard-collapse" style="">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    {% for year in years %}
+                                        <li>
+
+
+                                            <a href="./?year={{ year }}"
+                                               class="link-dark rounded">{{ year }}</a>
+
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+
+
+                    </ul>
+                <a href="{{ url_for('projects.all_projects') }}" class="ml-5">Сбросить</a>
+                </div>
+            </div>
+
+            <div class="col-md-10">
+                <div class="container">
+
+                    <h2 class="ml-3 mb-5">{{ name_of_subject }}</h2>
+                    <div class="row row-cols-1 row-cols-md-3 row-cols-sm-2 row-cols-lg-4 row-cols-xl-4">
+                        {% for project in projects %}
+                            <div class="col">
+                                <div class="card h-100 d-flex justify-content-between flex-column">
+                                    <div class="card-header">
+
+                                        <a href="/projects/?subject={{ project.subject.slug }}"
+                                           class="text-decoration-none"><small>{{ project.subject.name }}</small></a>
+                                    </div>
+
+
+                                    <a href="{{ project.slug }}">
+                                        <img src="{{ '/static/'+project.path_to_tphoto }}"
+                                             class="card-img-top img-fit-none scaling-img"
+                                             style="height: 7rem;"
+                                             alt="..."></a>
+
+
+
+                                    <div class="card-body d-flex flex-column justify-content-between h-100">
+                                        <h5 class="card-title mb-4">{{ project.name }}</h5>
+                                        <a href="{{ project.slug }}" class="btn btn-primary w-75 mx-auto">Подробнее</a>
+                                    </div>
+
+
+                                    <div class="card-footer">
+                                        {% for user in project.users %}
+                                            <small class="text-muted">{{ user.first_name + " " +  user.last_name }}, </small>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+                    <div class="mt-5">{{ pagination.links }}</div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename="sidebars.js") }}"></script>
+
+{% endblock %}
