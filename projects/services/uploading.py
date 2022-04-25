@@ -56,11 +56,12 @@ def set_project_image(project_image, project_object):
 def save_project_image(project_image, project_object, upload_form):
     """Сохраняет титульную картинку проекта в директории"""
     filename = secure_filename(project_image.filename)
-    path_to_tphoto = app.config['PROJECT_TITLE_IMAGE_FOLDER'] + "/" + "_" + str(time.time()) + "." + \
+    path = "_" + str(time.time()) + "." + \
                      filename.split(".")[-1]
+    path_to_tphoto = app.config['PROJECT_TITLE_IMAGE_FOLDER'] + "/" + path
     make_all_dirs_of_path(path_to_tphoto)
     project_image.save(path_to_tphoto)
-    project_object.path_to_tphoto = "/".join(path_to_tphoto.split("/")[1:])
+    project_object.path_to_tphoto =  app.config['PROJECT_TITLE_IMAGE_STATIC_URL'] + path
     project_object.has_photo = True
     return project_object
 
